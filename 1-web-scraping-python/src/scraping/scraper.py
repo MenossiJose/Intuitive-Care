@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 from src.config import USER_AGENT
 from src.utils.logger import get_logger
-from src.utils.error_handler import error_handler, handle_request_error, ParsingError
+from src.utils.error_handler import error_handler, handle_request_error, ParsingError, HttpError
 
 # Create a logger for this module
 logger = get_logger('scraper')
@@ -28,7 +28,9 @@ def get_pdf_links(url):
         logger.debug(f"Status code da resposta: {response.status_code}")
 
         if response.status_code != 200:
-            handle_request_error(response.raise_for_status(), url)
+            error_msg = f"Erro ao acessar o site: {response.status_code}"
+            logger.error(error_msg)
+            raise HttpError(error_msg)
         
         logger.info("Resposta recebida com sucesso, analisando conteúdo HTML")
         
@@ -62,5 +64,3 @@ def get_pdf_links(url):
     except requests.exceptions.RequestException as e:
         logger.error(f"Erro ao acessar {url}: {e}")
         handle_request_error(e, url)
-
-

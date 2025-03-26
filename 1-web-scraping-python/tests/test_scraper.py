@@ -124,4 +124,3 @@ def test_get_pdf_links_correct_user_agent():
         call_kwargs = mock_get.call_args[1]
         assert 'headers' in call_kwargs
         assert 'User-Agent' in call_kwargs['headers']
-        # We don't check the exact value since it's imported from config
