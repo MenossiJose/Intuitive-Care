@@ -1,5 +1,7 @@
 venv/
-_pycache_/
+__pycache__/
 *.pyc
 downloads/
 *.zip
+.pytest_cache/
+logs/
