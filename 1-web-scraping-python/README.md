@@ -13,9 +13,8 @@
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/yourusername/web-scraping-python.git
+   git clone https://github.com/MenossiJose/Intuitive-Care.git
    cd web-scraping-python
-
    ```
 
 2. Clone the repository:
