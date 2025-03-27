@@ -1,0 +1,8 @@
+# Convert PDF to DataFrame
+pandas==2.2.3
+
+# Data extraction from PDF
+pdfplumber==0.11.5
+
+# Testes unitários
+pytest==7.1.2
