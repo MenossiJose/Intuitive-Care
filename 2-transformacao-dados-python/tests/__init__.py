@@ -1,0 +1,1 @@
+__all__ = ['test_compressor', 'test_extractor', 'test_transformer']
