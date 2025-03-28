@@ -1,24 +1,55 @@
-from extractor import extract_table_pdf
-from compressor import compress_and_save
-from transformer import save_to_csv
+import sys
+import os
+from pathlib import Path
 
+# Add the project root directory to the Python path
+project_root = Path(__file__).parent.parent
+sys.path.append(str(project_root))
+
+from src.extractor import extract_table_pdf
+from src.compressor import compress_and_save
+from src.transformer import save_to_csv
+from src.utils.logger import get_logger
+from src.utils.error_handler import handle_errors, validate_file_exists
+
+logger = get_logger('main')
+
+@handle_errors
 def main():
-    pdf_path = '../data/input/Anexo_I.pdf'  # Certifique-se que o arquivo do Anexo I esteja disponível no diretório
+
+    input_dir = os.path.join(project_root, "data", "input")
+    #output_dir = os.path.join(project_root, "data", "output")
+
+    pdf_path = os.path.join(input_dir, "Anexo_I.pdf")
     name_csv = 'dados_extraidos.csv'
-    your_name = "JoseMenossi"  # Substitua pelo seu nome
+    your_name = "JoseMenossi"
     name_zip = f"Teste_{your_name}.zip"
 
-    # Extração da tabela
+    # Validate that the PDF file exists
+    validate_file_exists(pdf_path)
+    
+    logger.info(f"Starting data extraction from {pdf_path}")
     data = extract_table_pdf(pdf_path)
+    
+    # Validate extracted data
+    if not data:
+        logger.warning("No data was extracted from the PDF")
+    else:
+        logger.info(f"Successfully extracted {len(data)} rows from PDF")
 
-    # Realize testes adicionais para validar a extração (ex: contagem de linhas, verificação de cabeçalhos, etc.)
-    # Exemplo: assert not df.empty, "DataFrame vazio após extração!"
-
-    # Substituição das abreviações
+    # Save to CSV
+    logger.info(f"Saving data to CSV: {name_csv}")
     save_to_csv(data, name_csv)
-
-    # Salvando o CSV e compactando
+    
+    # Compress the CSV file
+    logger.info(f"Compressing file to {name_zip}")
     compress_and_save(name_csv, name_zip)
+    
+    logger.info("Process completed successfully")
 
 if __name__ == '__main__':
-    main()
+    try:
+        main()
+    except Exception as e:
+        logger.error(f"ETL process failed: {str(e)}")
+        exit(1)
