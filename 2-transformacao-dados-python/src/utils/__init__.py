@@ -1,1 +1,1 @@
-__all__ = ['logger', 'error_handling']
+__all__ = ['logger', 'error_handling', 'path']

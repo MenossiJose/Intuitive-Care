@@ -11,14 +11,14 @@ from src.compressor import compress_and_save
 from src.transformer import save_to_csv
 from src.utils.logger import get_logger
 from src.utils.error_handler import handle_errors, validate_file_exists
+from src.utils.path import get_input_dir, get_output_dir
 
 logger = get_logger('main')
 
 @handle_errors
 def main():
-
-    input_dir = os.path.join(project_root, "data", "input")
-    #output_dir = os.path.join(project_root, "data", "output")
+    input_dir = get_input_dir()
+    output_dir = get_output_dir()
 
     pdf_path = os.path.join(input_dir, "Anexo_I.pdf")
     name_csv = 'dados_extraidos.csv'

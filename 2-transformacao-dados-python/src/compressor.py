@@ -2,19 +2,17 @@ import zipfile
 import os
 from src.utils.error_handler import handle_errors, CompressionError
 from src.utils.logger import get_logger
+from src.utils.path import get_output_dir
 
 logger = get_logger('compressor')
 
 @handle_errors
 def compress_and_save(name_csv, name_zip, output_dir=None):
     try:
-        # Path to the output
+        # Path to the output - use the utility if not explicitly specified
         if output_dir is None:
-            output_dir = '../data/output'
+            output_dir = get_output_dir()
             
-        # Make sure output directory exists
-        os.makedirs(output_dir, exist_ok=True)
-        
         # Generate full paths for CSV and ZIP files
         csv_path = os.path.join(output_dir, name_csv)
         zip_path = os.path.join(output_dir, name_zip)

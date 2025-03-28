@@ -2,15 +2,15 @@ import os
 import pandas as pd
 from src.utils.error_handler import handle_errors, DataTransformationError
 from src.utils.logger import get_logger
+from src.utils.path import get_output_dir
 
 logger = get_logger('transformer')
 
 @handle_errors
 def save_to_csv(data, name_csv):
     try:
-        # Create output directory if it doesn't exist
-        output_dir = '../data/output'
-        os.makedirs(output_dir, exist_ok=True)
+        # Get output directory from paths utility
+        output_dir = get_output_dir()
 
         # Generate full paths for CSV file
         csv_path = os.path.join(output_dir, name_csv)
