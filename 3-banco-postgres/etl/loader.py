@@ -1,53 +1,47 @@
 from etl.extractor import extract_csv
+from etl.transformer import save_processed_csv
 
-def load_csv_data(conn, file_path, insert_query, batch_size=20000):
+def load_csv_data(session, file_path, model, batch_size=50000, save_processed=True):
     """
-    Insere os dados de um arquivo CSV único no banco de dados.
+    Loads CSV data and inserts records using SQLAlchemy ORM.
+    Optionally saves processed data to CSV.
+    """
+    if save_processed:
+        processed_path = save_processed_csv(file_path, batch_size=batch_size, sep=';')
+        print(f"Saved processed data to {processed_path}")
+    
+    # Continue with normal extraction and loading
+    for data in extract_csv(file_path, batch_size=batch_size, sep=';'):
+        # Skip the id column
+        columns = [col for col in model.__table__.columns.keys() if col != 'id']
+        
+        # Map data to columns, skipping the first field for id
+        objects = []
+        for row in data:
+            if len(row) >= len(columns):
+                obj_data = dict(zip(columns, row[:len(columns)]))
+                objects.append(model(**obj_data))
+        
+        try:
+            session.bulk_save_objects(objects)
+            session.commit()
+            print(f"Inserted {len(objects)} rows from {file_path}")
+        except Exception as err:
+            print(f"Error inserting data from {file_path}: {err}")
+            session.rollback()
 
-    Args:
-        conn: Conexão com o PostgreSQL.
-        file_path (str): Caminho do arquivo CSV.
-        insert_query (str): Query SQL para inserção dos dados.
-        batch_size (int): Tamanho do lote para processamento.
+def load_list_data(session, list_files, model_mapping, batch_size=50000, save_processed=True):
     """
-    with conn.cursor() as cur:
-        for data in extract_csv(file_path, batch_size=batch_size, sep=';'):
-            try:
-                cur.executemany(insert_query, data)
-                conn.commit()
-                print(f"Inserted {cur.rowcount} rows from {file_path}")
-            except Exception as err:
-                print(f"Erro ao inserir dados do arquivo {file_path}: {err}")
-                conn.rollback()
+    Loads data from a list of CSV files. 
+    """
+    for file_csv in list_files:
+        model = None
+        for year, m in model_mapping.items():
+            if year in file_csv:
+                model = m
+                break
+        if not model:
+            print(f"No model defined for file {file_csv}. Skipping.")
+            continue
 
-def load_list_data(conn, list_files, queries, batch_size=20000):
-    """
-    Insere os dados de uma lista de arquivos CSV no banco de dados.
-    Seleciona a query de inserção com base no ano presente no nome do arquivo.
-
-    Args:
-        conn: Conexão com o PostgreSQL.
-        list_files (list): Lista de caminhos para os arquivos CSV.
-        queries (dict): Mapeamento entre ano (str) e query de inserção.
-        batch_size (int): Tamanho do lote para processamento.
-    """
-    with conn.cursor() as cur:
-        for file_csv in list_files:
-            print(f"Processando {file_csv}")
-            # Determina qual query utilizar com base no ano encontrado no nome do arquivo
-            query = None
-            for year, q in queries.items():
-                if year in file_csv:
-                    query = q
-                    break
-            if not query:
-                print(f"Nenhuma query definida para o arquivo {file_csv}. Pulando.")
-                continue
-            for data in extract_csv(file_csv, batch_size=batch_size, sep=';'):
-                try:
-                    cur.executemany(query, data)
-                    conn.commit()
-                    print(f"Inserted {cur.rowcount} rows from {file_csv}")
-                except Exception as err:
-                    print(f"Erro ao inserir dados do arquivo {file_csv}: {err}")
-                    conn.rollback()
+        load_csv_data(session, file_csv, model, batch_size, save_processed)

@@ -1,86 +1,64 @@
 import time
-import mysql.connector  # Mudança aqui
+import os
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from models.models import Base, FinancialStatement2023, FinancialStatement2024, ActiveOperator
 from etl.loader import load_csv_data, load_list_data
+from dotenv import load_dotenv
+from utils.paths import RAW_DATA_DIR, PROCESSED_DATA_DIR
 
-# Configuração do banco de dados (MySQL no Docker)
-DB_HOST = "localhost"
-DB_PORT = 3306  # Mudança para a porta padrão do MySQL
-DB_USER = "ansUser"
-DB_PASSWORD = "ansPassword"
-DB_NAME = "ansDb"
+load_dotenv()
 
-# Arquivos de entrada
+DB_HOST = os.getenv("DB_HOST", "localhost")  
+DB_PORT = os.getenv("DB_PORT", 3306) 
+DB_USER = os.getenv("DB_USER", "ansUser") 
+DB_PASSWORD = os.getenv("DB_PASSWORD", "ansPassword")  
+DB_NAME = os.getenv("DB_NAME", "ansDb")
+
+# Create SQLAlchemy engine using pymysql driver
+engine = create_engine(f"mysql+pymysql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}", echo=False)
+Session = sessionmaker(bind=engine)
+
+# Add this line to debug connection issues
+print(f"Connecting to MySQL database: {DB_NAME} at {DB_HOST}:{DB_PORT}")
+
+# Create tables based on the models (if they do not exist yet)
+Base.metadata.create_all(engine)
+print("Schema created successfully.")
+
+# File paths for data extraction
 list_files = [
-    "data/raw/4T2024.csv",
-    "data/raw/3T2024.csv",
-    "data/raw/2T2024.csv",
-    "data/raw/1T2024.csv",
-    "data/raw/4T2023.csv",
-    "data/raw/3T2023.csv",
-    "data/raw/2T2023.csv",
-    "data/raw/1T2023.csv",
+    str(RAW_DATA_DIR / "4T2024.csv"),
+    str(RAW_DATA_DIR / "3T2024.csv"),
+    str(RAW_DATA_DIR / "2T2024.csv"),
+    str(RAW_DATA_DIR / "1T2024.csv"),
+    str(RAW_DATA_DIR / "4T2023.csv"),
+    str(RAW_DATA_DIR / "3T2023.csv"),
+    str(RAW_DATA_DIR / "2T2023.csv"),
+    str(RAW_DATA_DIR / "1T2023.csv"),
 ]
-file_path = "data/raw/Relatorio_cadop.csv"
+file_path = str(RAW_DATA_DIR / "Relatorio_cadop.csv")
 
-# Queries de inserção conforme o schema definido em sql/schema.sql
-query_active_operators = """
-INSERT INTO active_operators 
-(registro_ans, cnpj, razao_social, nome_fantasia, modalidade, logradouro, numero, complemento, bairro, cidade, uf, cep, ddd, telefone, fax, endereco_eletronico, representante, cargo_representante, regiao_de_comercializacao, data_registro_ans)
-VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-"""
 
-query_financial_statements_2023 = """
-INSERT INTO financial_statements_2023 
-(data, reg_ans, cd_conta_contabil, descricao, vl_saldo_inicial, vl_saldo_final)
-VALUES (%s, %s, %s, %s, %s, %s)
-"""
-
-query_financial_statements_2024 = """
-INSERT INTO financial_statements_2024 
-(data, reg_ans, cd_conta_contabil, descricao, vl_saldo_inicial, vl_saldo_final)
-VALUES (%s, %s, %s, %s, %s, %s)
-"""
-
-# Mapeamento para identificar qual query utilizar, de acordo com o ano presente no nome do arquivo
-queries = {
-    "2023": query_financial_statements_2023,
-    "2024": query_financial_statements_2024
+# Mapping of year to corresponding model class
+model_mapping = {
+    "2023": FinancialStatement2023,
+    "2024": FinancialStatement2024
 }
 
-def run_schema(conn, schema_file="sql/schemas.sql"):
-    """Executa o script SQL para criação das tabelas."""
-    with open(schema_file, "r", encoding="utf-8") as f:
-        schema_sql = f.read()
-    with conn.cursor() as cur:
-        for statement in schema_sql.split(";"):  # Divide comandos SQL se houver múltiplos
-            if statement.strip():
-                cur.execute(statement)
-    conn.commit()
-    print("Schema criado com sucesso.")
 
 def main():
     initial_time = time.time()
+    session = Session()
 
-    # Conecta ao MySQL (rodando em Docker)
-    conn = mysql.connector.connect(
-        host=DB_HOST,
-        port=DB_PORT,
-        user=DB_USER,
-        password=DB_PASSWORD,
-        database=DB_NAME
-    )
-    
-    # Cria as tabelas conforme o schema
-    run_schema(conn)
-    
-    # Carrega os dados do arquivo de operadoras (tabela active_operators)
-    load_csv_data(conn, file_path, query_active_operators, batch_size=20000)
-    
-    # Carrega os dados dos arquivos de demonstrativos (tabelas financial_statements_2023/2024)
-    load_list_data(conn, list_files, queries, batch_size=20000)
-    
-    conn.close()
-    print(f"Tempo de execução: {time.time() - initial_time:.2f} segundos")
+    # Load active operators data
+    load_csv_data(session, file_path, model=ActiveOperator, batch_size=50000)
+
+    # Load financial statements data (based on year from filename)
+    load_list_data(session, list_files, model_mapping, batch_size=50000)
+
+    session.close()
+    print(f"Execution time: {time.time() - initial_time:.2f} seconds")
 
 if __name__ == "__main__":
     main()
