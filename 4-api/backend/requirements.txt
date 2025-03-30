@@ -9,3 +9,15 @@ sqlalchemy == 2.0.40
 
 # python-dotenv - Load environment variables from .env files
 python-dotenv == 1.1.0
+
+# Pytest - Testing framework for Python
+pytest == 7.1.2
+
+# Uvicorn - ASGI server for running FastAPI applications
+uvicorn == 0.34.0
+
+# Pydantic - Data validation and settings management using Python type annotations
+pydantic == 2.11.1
+
+# Cryptography - Library for cryptography and secure communication
+cryptography == 44.0.2
