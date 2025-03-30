@@ -1,0 +1,11 @@
+# FastAPI - Modern web framework for building APIs
+fastapi == 0.115.12
+
+# PyMySQL - Pure Python MySQL client library
+pymysql == 1.1.1
+
+# SQLAlchemy - SQL toolkit and Object-Relational Mapper
+sqlalchemy == 2.0.40
+
+# python-dotenv - Load environment variables from .env files
+python-dotenv == 1.1.0
