@@ -1,72 +1,94 @@
 # Web Scraping
 
-## Features
+## Descrição
+Este projeto implementa um sistema automatizado de web scraping projetado para extrair, baixar e comprimir documentos PDF de sites específicos.
 
-- **Web Scraping**: Extracts links to PDF documents from specified URLs
-- **Automatic Download**: Downloads all identified PDF files
-- **Compression**: Compresses downloaded files into a ZIP archive
-- **Robust Error Handling**: Includes comprehensive error handling for network issues, HTTP errors, and file operations
-- **Detailed Logging**: Logs all operations to both console and log files for monitoring and debugging
+## Funcionalidades
+- **Web Scraping**: Extrai links para documentos PDF de URLs específicas
+- **Download Automático**: Baixa todos os arquivos PDF identificados
+- **Compressão**: Compacta os arquivos baixados em um arquivo ZIP
+- **Tratamento Robusto de Erros**: Inclui tratamento abrangente de erros para problemas de rede, erros HTTP e operações com arquivos
+- **Registro Detalhado**: Registra todas as operações tanto no console quanto em arquivos de log para monitoramento e depuração
 
-## Installation
+### Estrutura de Pastas
 
-1. Clone the repository:
+```
+📁 1-web-scraping-python/
+│
+├── 📄 README.md                 # Documentação do projeto
+├── 📄 requirements.txt          # Dependências do projeto
+├── 📄 .gitignore                # Arquivos ignorados pelo Git
+│
+├── 📁 src/                      # Código fonte principal
+│   ├── 📄 config.py             # Configurações do projeto
+│   ├── 📄 main.py               # Script principal de execução
+│   │
+│   ├── 📁 scraping/             # Módulos de scraping
+│   │   ├── 📄 __init__.py       # Define os módulos disponíveis
+│   │   ├── 📄 scraper.py        # Extração de links de PDFs
+│   │   ├── 📄 downloader.py     # Download de arquivos
+│   │   └── 📄 compressor.py     # Compressão de arquivos
+│   │
+│   ├── 📁 utils/                # Utilitários
+│   │   ├── 📄 __init__.py       # Define os módulos disponíveis
+│   │   ├── 📄 error_handler.py  # Tratamento de erros
+│   │   └── 📄 logger.py         # Configuração de logs
+│   │
+│   └── 📁 downloads/            # Arquivos baixados (criado em runtime)
+│       └── 📄 (arquivos PDFs)   # PDFs baixados
+│
+├── 📁 tests/                    # Testes unitários
+│   ├── 📄 __init__.py           # Define os módulos de teste
+│   ├── 📄 test_scraper.py       # Testes para o módulo scraper
+│   ├── 📄 test_downloader.py    # Testes para o módulo downloader
+│   └── 📄 test_compressor.py    # Testes para o módulo compressor
+│
+└── 📁 logs/                     # Logs de execução
+    └── 📄 scraper_*.log         # Arquivos de log com timestamp
+```
 
+## Instalação
+1. Clone o repositório:
    ```bash
    git clone https://github.com/MenossiJose/Intuitive-Care.git
    cd web-scraping-python
    ```
-
-2. Clone the repository:
-
+2. Crie um ambiente virtual:
    ```bash
    python -m venv venv
-   # On Windows
+   # No Windows
    venv\Scripts\activate
-   # On macOS/Linux
+   # No macOS/Linux
    source venv/bin/activate
-
    ```
-
-3. Install the required dependencies:
+3. Instale as dependências necessárias:
    ```bash
    pip install -r requirements.txt
    ```
 
-## Usage
-
-Run the main script to start the scraping process:
-
+## Uso
+Execute o script principal para iniciar o processo de scraping:
 ```bash
 python src/main.py
-
 ```
+Isso irá:
+1. Extrair links de PDF da URL configurada
+2. Baixar os arquivos PDF para o diretório de downloads
+3. Comprimir os arquivos em anexos.zip
 
-This will:
+## Configuração
+O comportamento do projeto pode ser configurado em config.py:
+- **URL**: A URL do site para fazer scraping
+- **DOWNLOAD_DIR**: Diretório onde os arquivos baixados serão salvos
+- **ZIP_NAME**: Nome do arquivo ZIP compactado
+- **USER_AGENT**: User-agent do navegador para usar nas requisições
 
-1. Extract PDF links from the configured URL
-2. Download the PDF files to the downloads directory
-3. Compress the files into anexos.zip
-
-## Configuration
-
-The project's behavior can be configured in config.py:
-
-- **URL**: The website URL to scrape
-- **DOWNLOAD_DIR**: Directory where downloaded files will be saved
-- **ZIP_NAME**: Name of the compressed ZIP file
-- **USER_AGENT**: Browser user-agent to use for requests
-
-## Testing
-
-Run the test suite with:
-
+## Testes
+Execute o conjunto de testes com:
 ```bash
 pytest tests/
 ```
-
-Or test specific components:
-
+Ou teste componentes específicos:
 ```bash
 pytest tests/test_scraper.py
 pytest tests/test_downloader.py
