@@ -1,23 +1,23 @@
-# Explicação do Projeto Transformação de dados em python
+#Transformação de dados em python
 
 Este projeto consiste em um sistema ETL (Extract, Transform, Load) que processa dados de um documento PDF da ANS (Agência Nacional de Saúde Suplementar), extraindo tabelas, transformando-as em formato estruturado e disponibilizando em formato compactado.
 
 ## Estrutura do Projeto
 
 ```
-├── src/                # Código fonte principal
-│   ├── __init__.py     # Define os módulos disponíveis
-│   ├── extractor.py    # Extração de tabelas do PDF
-│   ├── transformer.py  # Transformação de dados para CSV
-│   ├── compressor.py   # Compressão de arquivos em ZIP
+├──📁 src/                # Código fonte principal
+│   ├──📄 __init__.py     # Define os módulos disponíveis
+│   ├──📄 extractor.py    # Extração de tabelas do PDF
+│   ├──📄 transformer.py  # Transformação de dados para CSV
+│   ├──📄 compressor.py   # Compressão de arquivos em ZIP
 │   └── utils/          # Utilitários (erros, logs, caminhos)
-├── data/               # Diretórios de dados
-│   ├── input/          # Arquivos de entrada (Anexo_I.pdf)
-│   └── output/         # Arquivos gerados (CSV, ZIP)
-├── logs/               # Logs de execução
-├── tests/              # Testes unitários
-├── requirements.txt    # Dependências do projeto
-└── .gitignore          # Arquivos ignorados pelo git
+├──📁 data/               # Diretórios de dados
+│   ├──📁 input/          # Arquivos de entrada (Anexo_I.pdf)
+│   └──📁 output/         # Arquivos gerados (CSV, ZIP)
+├──📁 logs/               # Logs de execução
+├──📁 tests/              # Testes unitários
+├──📄 requirements.txt    # Dependências do projeto
+└──📄 .gitignore          # Arquivos ignorados pelo git
 ```
 
 ## Passo a Passo do Funcionamento
