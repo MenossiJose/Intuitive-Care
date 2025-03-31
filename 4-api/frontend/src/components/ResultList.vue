@@ -15,7 +15,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
-import { searchOperators } from "../services/api.js";
+import { searchOperatorsByName } from "../services/api.js";
 import ResultItem from "./ResultItem.vue";
 
 const results = ref([]);
@@ -27,7 +27,7 @@ onMounted(async () => {
   if (query) {
     loading.value = true;
     try {
-      const response = await searchOperators(query);
+      const response = await searchOperatorsByName(query);
       results.value = response.data;
     } catch (error) {
       console.error("Erro ao buscar os resultados:", error);

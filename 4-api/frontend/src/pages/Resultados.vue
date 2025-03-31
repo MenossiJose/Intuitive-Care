@@ -2,7 +2,18 @@
   <div class="resultados-container">
     <h1>Resultados da Pesquisa</h1>
 
-    <!-- Barra de busca -->
+    <!-- Dropdown -->
+    <div class="search-options">
+      <label for="searchType">Tipo de Busca:</label>
+      <select id="searchType" v-model="selectedSearchType">
+        <option value="name">Nome Fantasia</option>
+        <option value="cnpj">CNPJ</option>
+        <option value="razaoSocial">Razão Social</option>
+        <option value="modalidade">Modalidade</option>
+        <option value="city">Cidade</option>
+      </select>
+    </div>
+
     <SearchBar
       v-model="searchQuery"
       placeholder="Pesquisar..."
@@ -20,7 +31,6 @@
 
       <div v-else-if="results.length > 0" class="results-list">
         <h2>{{ results.length }} resultado(s) encontrado(s)</h2>
-        <!-- Exibição dos resultados em uma tabela -->
         <table class="results-table">
           <thead>
             <tr>
@@ -53,9 +63,17 @@
 <script setup>
 import { ref } from "vue";
 import SearchBar from "../components/SearchBar.vue";
-import { searchOperators } from "../services/api.js";
+
+import {
+  searchOperatorsByName,
+  searchOperatorsByCnpj,
+  searchOperatorsByRazaoSocial,
+  searchOperatorsByCity,
+  searchOperatorsByModalidade,
+} from "../services/api.js";
 
 const searchQuery = ref("");
+const selectedSearchType = ref("name");
 const results = ref([]);
 const loading = ref(false);
 const searched = ref(false);
@@ -67,8 +85,27 @@ async function performSearch() {
   searched.value = true;
 
   try {
-    // Chama a API passando o termo de busca
-    const response = await searchOperators(searchQuery.value);
+    let response;
+    switch (selectedSearchType.value) {
+      case "name":
+        response = await searchOperatorsByName(searchQuery.value);
+        break;
+      case "cnpj":
+        response = await searchOperatorsByCnpj(searchQuery.value);
+        break;
+      case "razaoSocial":
+        response = await searchOperatorsByRazaoSocial(searchQuery.value);
+        break;
+      case "modalidade":
+        response = await searchOperatorsByModalidade(searchQuery.value);
+        break;
+      case "city":
+        response = await searchOperatorsByCity(searchQuery.value);
+        break;
+      default:
+        response = await searchOperatorsByName(searchQuery.value);
+        break;
+    }
     results.value = response.data;
   } catch (error) {
     console.error("Erro ao buscar resultados:", error);
@@ -90,6 +127,21 @@ h1,
 h2 {
   color: #333;
   margin-bottom: 20px;
+}
+
+.search-options {
+  margin-bottom: 15px;
+}
+
+.search-options label {
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.search-options select {
+  padding: 0.5em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 .results-section {
