@@ -149,3 +149,9 @@ Para executar os testes do backend:
 cd backend
 pytest tests/test_operadora.py
 ```
+
+### Postman
+
+Postman foi utilizado para testar a api.
+
+![Screenshot](postman.png)
