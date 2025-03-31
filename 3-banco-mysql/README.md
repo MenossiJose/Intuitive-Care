@@ -18,6 +18,37 @@ O projeto realiza as seguintes operações:
 - **Script Principal**: `main.py` para orquestrar o processo ETL
 - **Análises**: `analytics.py` para executar consultas analíticas
 
+## Árvore de Pastas
+```
+📁 banco-mysql/                 # Diretório raiz do projeto
+├──📄 .env                     # Variáveis de ambiente (credenciais do banco)
+├──📄 .gitignore               # Arquivos ignorados pelo git
+├──📄 analytics.py             # Script de análise dos dados
+├──📄 main.py                  # Script principal do ETL
+├──📄 README.md                # Documentação do projeto
+├──📄 requirements.txt         # Dependências do projeto
+│
+├──📁 data/                    # Diretórios de dados
+│   ├──📁 raw/                 # Arquivos CSV originais
+│   └──📁 processed/           # Arquivos CSV processados
+├──📁 docker/                  # Configuração do Docker
+│   └──📄 docker-compose.yml   # Configuração do container MySQL
+│
+├──📁 etl/                     # Módulos do pipeline ETL
+│   ├──📄 __init__.py          # Inicializador do pacote
+│   ├──📄 extractor.py         # Módulo de extração de dados
+│   ├──📄 transformer.py       # Módulo de transformação de dados
+│   └──📄 loader.py            # Módulo de carregamento de dados
+│
+├──📁 models/                  # Definição dos modelos de dados
+│   ├──📄 __init__.py
+│   └──📄 models.py            # Classes SQLAlchemy para o banco de dados
+│
+└──📁 utils/                   # Utilitários
+    ├──📄 __init__.py
+    └──📄 paths.py             # Definições de caminhos do projeto
+```
+
 ## Passo a Passo para Execução
 
 1. **Configuração do Ambiente**
