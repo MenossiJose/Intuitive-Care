@@ -15,11 +15,10 @@ def buscar_operadoras_razao_social(db: Session, termo: str):
              .filter(models.ActiveOperator.razao_social.like(f"%{termo}%"))\
              .all()
 
-def buscar_operadoras_cidade_uf(db: Session, cidade: str, uf: str):
+def buscar_operadoras_cidade_uf(db: Session, cidade: str):
     return db.query(models.ActiveOperator)\
              .filter(
                  models.ActiveOperator.cidade.like(f"%{cidade}%"),
-                 models.ActiveOperator.uf.like(f"%{uf}%")
              )\
              .all()
 

@@ -43,9 +43,9 @@ def buscar_razao_social(termo: str, db: Session = Depends(get_db)):
     return error_handler.check_empty_results(results, termo, "razao_social")
 
 @router.get("/buscar_cidade_uf", response_model=list[schemas.OperadoraDetalhada])
-def buscar_cidade_uf(cidade: str, uf: str, db: Session = Depends(get_db)):
-    results = services.buscar_operadoras_cidade_uf(db, cidade, uf)
-    return error_handler.check_empty_results(results, f"{cidade} / {uf}", "cidade e uf")
+def buscar_cidade_uf(cidade: str, db: Session = Depends(get_db)):
+    results = services.buscar_operadoras_cidade_uf(db, cidade)
+    return error_handler.check_empty_results(results, f"{cidade}", "cidade")
 
 @router.get("/buscar_modalidade", response_model=list[schemas.OperadoraDetalhada])
 def buscar_modalidade(termo: str, db: Session = Depends(get_db)):
