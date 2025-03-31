@@ -1,8 +1,33 @@
-# Convert PDF to DataFrame
+atomicwrites==1.4.1
+attrs==25.3.0
+cffi==1.17.1
+chardet==5.2.0
+charset-normalizer==3.4.1
+click==8.1.8
+colorama==0.4.6
+cryptography==44.0.2
+distro==1.9.0
+et_xmlfile==2.0.0
+iniconfig==2.1.0
+jpype1==1.5.2
+numpy==2.2.4
+opencv-python-headless==4.11.0.86
+openpyxl==3.1.5
+packaging==24.2
 pandas==2.2.3
-
-# Data extraction from PDF
+pdfminer.six==20231228
 pdfplumber==0.11.5
-
-# Testes unitários
+pillow==11.1.0
+pluggy==1.5.0
+py==1.11.0
+pycparser==2.22
+pypdf==5.4.0
+PyPDF2==3.0.1
+pypdfium2==4.30.1
 pytest==7.1.2
+python-dateutil==2.9.0.post0
+pytz==2025.2
+six==1.17.0
+tabulate==0.9.0
+tomli==2.2.1
+tzdata==2025.2
