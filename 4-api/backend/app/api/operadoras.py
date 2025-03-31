@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
+from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from app.utils.paths import get_core, get_services, get_schemas, get_error_handler
-
 
 core = get_core()
 services = get_services()
