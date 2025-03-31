@@ -115,7 +115,12 @@ O frontend é uma aplicação web que permite ao usuário interagir com a API e 
    ```
    DATABASE_URL=mysql+pymysql://usuario:senha@localhost/nome_do_banco
    ```
-5. Execute a API:
+5. Certifique-se que o BD criado em Docker no item anterior está rodando
+   ```
+   cd Intuitive-Cara/3-banco-mysql/docker
+   docker compose up
+   ```
+6. Execute a API:
    ```
    uvicorn app.main:app --reload
    ```
@@ -144,3 +149,9 @@ Para executar os testes do backend:
 cd backend
 pytest tests/test_operadora.py
 ```
+
+### Postman
+
+Postman foi utilizado para testar a api.
+
+![Screenshot](postman.png)
