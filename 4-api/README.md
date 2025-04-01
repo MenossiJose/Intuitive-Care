@@ -154,4 +154,4 @@ pytest tests/test_operadora.py
 
 Postman foi utilizado para testar a api.
 
-![Screenshot](postman.png)
+![Screenshot](postman/postman.png)

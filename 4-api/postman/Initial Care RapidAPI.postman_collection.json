@@ -1,0 +1,186 @@
+{
+	"info": {
+		"_postman_id": "33a88b4e-59a3-44d2-b981-e77428b44d61",
+		"name": "Initial Care RapidAPI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "43597746",
+		"_collection_link": "https://josemenossi.postman.co/workspace/Jose-Menossi's-Workspace~72c2c591-8252-4b7c-8a1e-b1b3e27d42a4/collection/43597746-33a88b4e-59a3-44d2-b981-e77428b44d61?action=share&source=collection_link&creator=43597746"
+	},
+	"item": [
+		{
+			"name": "GET por nome",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8000/api/buscar_nome?termo=Bradesco",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"buscar_nome"
+					],
+					"query": [
+						{
+							"key": "termo",
+							"value": "Bradesco"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET por nome detalhado",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8000/api/buscar_detalhada_nome?termo=Bradesco",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"buscar_detalhada_nome"
+					],
+					"query": [
+						{
+							"key": "termo",
+							"value": "Bradesco"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET por cnpj",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8000/api/buscar_cnpj?termo=12049486000131",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"buscar_cnpj"
+					],
+					"query": [
+						{
+							"key": "termo",
+							"value": "12049486000131"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET por cnpj detalhado",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8000/api/buscar_detalhada_cnpj?termo=12049486000131",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"buscar_detalhada_cnpj"
+					],
+					"query": [
+						{
+							"key": "termo",
+							"value": "12049486000131"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET por razao social",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8000/api/buscar_razao_social?termo=Bradesco",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"buscar_razao_social"
+					],
+					"query": [
+						{
+							"key": "termo",
+							"value": "Bradesco"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET buscar cidades",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8000/api/buscar_cidade_uf?cidade=São Paulo",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"buscar_cidade_uf"
+					],
+					"query": [
+						{
+							"key": "cidade",
+							"value": "São Paulo"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET por modalidade",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8000/api/buscar_modalidade?termo=Medicina",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"buscar_modalidade"
+					],
+					"query": [
+						{
+							"key": "termo",
+							"value": "Medicina"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
