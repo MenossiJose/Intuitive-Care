@@ -1,4 +1,4 @@
-# Intuitive Care - API de Operadoras de Saúde
+# Intuitive Care - API
 
 Este projeto é uma aplicação full-stack que permite consultar e analisar dados de operadoras de saúde no Brasil. A aplicação consiste em um backend em FastAPI e um frontend em Vue.js.
 
